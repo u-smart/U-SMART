@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tesla.u_smart" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +24,16 @@
             android:name=".Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Oyutan_menu"
+            android:label="@string/title_activity_oyutan_menu"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".ForgetActivity"
+            android:label="@string/title_activity_forget"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 

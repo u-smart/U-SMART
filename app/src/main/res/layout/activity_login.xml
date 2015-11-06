@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -14,7 +13,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"></RelativeLayout>
+        android:layout_weight="0.9">
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -56,8 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="43dp"
-                android:text="Нэвтрэх нэрээ оруулна уу"
-                android:selectAllOnFocus="true"
+                android:hint="Нэвтрэх нэрээ оруулна уу"
                 android:textSize="14dp"/>
 
             <EditText
@@ -69,7 +69,7 @@
                 android:selectAllOnFocus="true"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="43dp"
-                android:text="12345678"/>
+                android:hint="нууц үг"/>
 
             <Button
                 android:id="@+id/bLogin"

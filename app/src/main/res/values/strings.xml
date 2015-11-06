@@ -2,4 +2,10 @@
     <string name="app_name">U-SMART</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_menu">Menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_oyutan_menu">Oyutan_menu</string>
+    <string name="title_activity_forget">ForgetActivity</string>
 </resources>
