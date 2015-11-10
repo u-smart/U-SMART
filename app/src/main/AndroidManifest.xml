@@ -35,6 +35,11 @@
             android:label="@string/title_activity_forget"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity
+            android:name=".TeacherNav"
+            android:label="@string/title_activity_teacher_nav"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>

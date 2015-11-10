@@ -27,6 +27,7 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile  'com.mikepenz.materialdrawer:library:2.9.8'
+    compile  'de.hdodenhof:circleimageview:1.2.0'
 
 
 }
