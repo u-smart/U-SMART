@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/httpclient-4.5/httpclient-4.5.iml" filepath="$PROJECT_DIR$/httpclient-4.5/httpclient-4.5.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpcore-4.4-alpha1/httpcore-4.4-alpha1.iml" filepath="$PROJECT_DIR$/httpcore-4.4-alpha1/httpcore-4.4-alpha1.iml" />
       <module fileurl="file://$PROJECT_DIR$/materialdrawer-2.9.8-javadoc/materialdrawer-2.9.8-javadoc.iml" filepath="$PROJECT_DIR$/materialdrawer-2.9.8-javadoc/materialdrawer-2.9.8-javadoc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/universal-image-loader-1.9.4/universal-image-loader-1.9.4.iml" filepath="$PROJECT_DIR$/universal-image-loader-1.9.4/universal-image-loader-1.9.4.iml" />
     </modules>
   </component>
 </project>

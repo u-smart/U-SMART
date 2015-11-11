@@ -4,25 +4,25 @@
 
     <group android:checkableBehavior="single"
         >
-        <item android:id="@+id/nav_camara"
+        <item android:id="@+id/home"
 
             android:icon="@drawable/d"
             android:title="Үндсэн дэлгэц    " />
-        <item android:id="@+id/nav_gallery"
+        <item android:id="@+id/irts" android:icon="@android:drawable/ic_menu_manage"
+            android:title="Ирц бүртгэх" />
+        <item android:id="@+id/syllabus"
             android:icon="@drawable/syllabus"
             android:title="Хичээлийн хуваарь" />
-        <item android:id="@+id/nav_slideshow"
+        <item android:id="@+id/res"
             android:icon="@drawable/syllabus"
             android:title="Дүн" />
-        <item android:id="@+id/nav_manage" android:icon="@android:drawable/ic_menu_manage"
-            android:title="Ирц бүртгэх" />
     </group>
 
     <item android:title="Мэдээлэл">
         <menu>
-            <item android:id="@+id/nav_share"
+            <item android:id="@+id/g_info"
                 android:title="Группын  мэдээлэл" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
+            <item android:id="@+id/cl_info" android:icon="@android:drawable/ic_menu_send"
                 android:title="Ангийн мэдээлэл" />
         </menu>
     </item>

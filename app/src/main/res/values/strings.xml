@@ -11,4 +11,5 @@
     <string name="title_activity_teacher_nav">TeacherNav</string>
     <string name="password">Хоосон  байна</string>
     <string name="name">Бөглөөгүй байна</string>
+    <string name="title_activity_imformation_class">ImformationClass</string>
 </resources>

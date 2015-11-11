@@ -3,6 +3,8 @@ package com.example.tesla.u_smart;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -32,6 +35,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,10 +47,12 @@ public class Login extends AppCompatActivity  {
 
     public EditText etUsername, etPassword;
     Button loginb;
+   public static final String USERNAME ="";
+   TeacherNav nav  ;
     TextInputLayout namelayout,passlayout;
     ListView lvk;
     TeacherNav tnav=  new TeacherNav();
-
+    ImageView  headerimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,7 @@ public class Login extends AppCompatActivity  {
         namelayout = (TextInputLayout)findViewById(R.id.name_layout);
         passlayout = (TextInputLayout)findViewById(R.id.input_pass);
         loginb =(Button)findViewById(R.id.bLogin);
+        headerimage=  (ImageView)findViewById(R.id.headerImageView);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,24 +109,23 @@ public class Login extends AppCompatActivity  {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         for (int k=0;k<list.size();k++){
-                      for(int  i=0;i<list1.size();i++){
+
                           if(list.get(k).toString().equalsIgnoreCase(getName()) || list.get(k).toString().equalsIgnoreCase(getPass())) {
                               if (isName(getName()) ) {
-                                // tnav.loginImage("http://10.2.201.4/images" + list1.get(i).toString());
+                                 //  Toast.makeText(getApplicationContext(),list1.get(i).toString(),Toast.LENGTH_SHORT).show();
                                   Intent n = new Intent(Login.this, TeacherNav.class);
+                                   n.putExtra(USERNAME,getName());
                                   startActivity(n);
-                              } else
-                              if (isStudent(getName())){
-                                  Intent ns  = new Intent(Login.this,Oyutan_menu.class);
-                                  startActivity(ns);
-                                  startActivity(ns);
                               }
+                              else
+                              if (isStudent(getName()) ||  list.get(k).toString().equalsIgnoreCase(getPass())){
+                                  Intent ns  = new Intent(Login.this,Oyutan_menu.class);
+                                  startActivity(ns);                              }
                               else Toast.makeText(getApplicationContext(),"алдаатай байна",Toast.LENGTH_LONG).show();
-
                           }
 
                       }
-                        }
+
                             }
                 });
                  }
@@ -241,3 +247,4 @@ return  jsonObject;
     }
 
 }
+

@@ -1,7 +1,17 @@
 package com.example.tesla.u_smart;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -26,12 +37,26 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.tesla.u_smart.ImformationEntity.ImformationClass;
+import com.example.tesla.u_smart.ServerRequest.ServerRequestAll;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,14 +64,20 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TeacherNav extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-ListView lv;
+        implements NavigationView.OnNavigationItemSelectedListener{
+    String names;
+    ListView lv,lv1;
 ImageView headerImage;
+    ServerRequestAll  all;
+    String name=null;
+
     Bitmap bitmap;
     ArrayList<HashMap<String, String>> productsList=new ArrayList<HashMap<String, String>>();
     JSONArray  array=null;
@@ -55,9 +86,9 @@ ImageView headerImage;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_nav);
+     //   setContentView(R.layout.nav_header_teacher_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,10 +107,19 @@ ImageView headerImage;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
       lv  =  (ListView)findViewById(R.id.lessonlistView);
+        lv1  =  (ListView)findViewById(R.id.lessonlistView);
 
-getData();
-    }
+        headerImage = (ImageView)findViewById(R.id.headerImageView);
 
+Intent intent =getIntent();
+        name =intent.getStringExtra(Login.USERNAME);
+        Toast.makeText(getApplicationContext(),name,Toast.LENGTH_SHORT).show();
+
+        all =  new ServerRequestAll();
+        ImageViewShow(name);
+
+
+     }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,19 +156,22 @@ getData();
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Fragment fragment=null;
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.syllabus) {
+          getHicheel(name);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.res) {
+              getData(name);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.irts) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.home) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.cl_info) {
+               new ImformationClass();
+        } else if (id == R.id.g_info) {
 
         }
 
@@ -136,101 +179,170 @@ getData();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void  getData(){
+    public void  getData(String username){
         class  Server extends AsyncTask<String,Void,String> {
-            private String tname="hicheel";
-            private  String lcode="hicheeliin_code";
-            private  String lname="hicheeliin_ner";
+            public static final String tname = "hicheel";
+            public static final String lnames = "hicheeliin_ner";
+            public static final String lcode= "hicheeliin_code";
+            JSONArray jsonArray=null;
             @Override
             protected String doInBackground(String... params) {
-                try {
-                    JSONObject jsonObject = make();
-                    array =jsonObject.getJSONArray(tname);
-                    for (int  n=0;n<array.length();n++){
-                        JSONObject c=array.getJSONObject(n);
-                        String lh  = c.getString(lcode);
-                        String ln=c.getString(lname);
-                        HashMap<String,String> map  =  new HashMap<String,String>();
-                        map.put(lcode,lh);
-                        map.put(lname,ln);
+                String  name  =params[0];
+                List<NameValuePair>  list  = new ArrayList<NameValuePair>();
+                try{
+                    list.add(new BasicNameValuePair("name", name));
+                    JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/hicheel.php",list);
+                    jsonArray = jsonObject.getJSONArray(tname);
+                    for (int i=0;i<jsonArray.length();i++){
+                        JSONObject  j = jsonArray.getJSONObject(i);
+                        names= j.getString(lnames);
+                        String h  = j.getString(lcode);
+                        HashMap<String,String>  map  = new  HashMap<String,String>();
+                        map.put(lnames, names);
+                        map.put(lcode, h);
                         productsList.add(map);
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                }catch (Exception e){Log.e("aldaa","garsan");}
                 return null;
             }
 
             @Override
             protected void onPostExecute(String s) {
-                ListAdapter listAdapter = new SimpleAdapter(TeacherNav.this,productsList,R.layout.list_item,new String[]{lcode,lname},new int[]{R.id.lcode,R.id.lname});
-                lv.setAdapter(listAdapter);
+                ListAdapter listAdapter = new SimpleAdapter(TeacherNav.this,productsList,R.layout.list_item,new String[]{lcode,lnames},new int[]{R.id.lcode,R.id.lname});
+              lv.setAdapter(listAdapter);
             }
         }
    Server  s  =  new Server();
-        s.execute();
-    }
-    public JSONObject make(){
-        InputStream st=null;
-        JSONObject  object = null;
-        String  res  ="";
-        try{
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post  =  new HttpPost("http://10.2.201.4/config/hicheel.php");
-
-            HttpResponse response = client.execute(post);
-            HttpEntity entity = response.getEntity();
-            st   =  entity.getContent();
-        }catch (Exception e){
-
-            Log.e(" not Connect", "not  connect");
-        }
-        try{
-            BufferedReader reader   =  new BufferedReader(new InputStreamReader(st,"UTF-8"),8);
-            StringBuilder sb =  new StringBuilder();
-            String line  ="";
-            while((line =reader.readLine())!=null){
-                sb.append(line + "\n");
-            }
-            st.close();
-            res = sb.toString();
-        }catch (Exception e1) {
-            Log.e("Exception","Exception");
-        }
-        try {
-            object = new JSONObject(res);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return  object;
-    }
-public  void  loginImage(String urlx){
-headerImage  =  (ImageView)findViewById(R.id.headerImageView);
- new LoadImage().execute(urlx);
-}
-     class LoadImage extends AsyncTask<String, String, Bitmap> {
-
-        protected Bitmap doInBackground(String... args) {
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        protected void onPostExecute(Bitmap image) {
-
-            if(image != null){
-                headerImage.setImageBitmap(image);
-
-
-            }else{
-                Toast.makeText(TeacherNav.this, "Image Does Not exist or Network Error", Toast.LENGTH_SHORT).show();
-            }
-        }
+        s.execute(username);
     }
 
+
+    private void getHicheel(String  username ){
+     class Hicheel extends AsyncTask<String, Void, String> {
+            ArrayList<String>  arrayList1=  new ArrayList<String>();
+            ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String, String>>();
+            public static final String tname = "hicheeliin_huwaari";
+            public static final String lh = "hicheeliin_oroh_helber";
+            public static final String group = "hicheeliin_huwaariin_code";
+            public static final String lnames = "hicheeliin_ner";
+            public static final String date= "create_date";
+            JSONArray jsonArray=null;
+            @Override
+            protected String doInBackground(String... params) {
+                  String  name  =params[0];
+                List<NameValuePair>  list  = new ArrayList<NameValuePair>();
+             try{
+                 list.add(new BasicNameValuePair("name", name));
+                 JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/huvaari.php", list);
+                 jsonArray = jsonObject.getJSONArray(tname);
+                 for (int i=0;i<jsonArray.length();i++){
+                     JSONObject  j = jsonArray.getJSONObject(i);
+                   String  n= j.getString(lnames);
+                    String h  = j.getString(lh);
+                     String gr  = j.getString(group);
+                     String d  = j.getString(date);
+                     HashMap<String,String>  map  = new  HashMap<String,String>();
+                     map.put(lnames, n);
+                     map.put(lh, h);
+                     map.put(group, gr);
+                     map.put(date, d);
+                     arrayList.add(map);
+                 }
+             }catch (Exception e){Log.e("aldaa","garsan");}
+                return null;
+            }
+
+         @Override
+         protected void onPostExecute(String s) {
+              //   ArrayAdapter adapter =  new ArrayAdapter(TeacherNav.this,android.R.layout.simple_list_item_1,android.R.id.text1,arrayList1);
+              //   lv.setAdapter(adapter);
+             ListAdapter listAdapter =  new SimpleAdapter(TeacherNav.this,arrayList,R.layout.hicheel_layout,new String[]{lnames,lh,group,date}, new int[]{R.id.lessonname,R.id.helber,R.id.group,R.id.date});
+             lv1.setAdapter(listAdapter);
+
+         }
+         //       Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+
+     }
+
+        Hicheel h = new Hicheel();
+        h.execute(username);
+    }
+public  void  ImageViewShow(String name){
+    class Hicheel extends AsyncTask<String, Void, String> {
+        String h;
+        ArrayList<String>  arrayList1=  new ArrayList<String>();
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String, String>>();
+        public static final String tname = "bagsh";
+        public static final String lh = "images";
+        JSONArray jsonArray=null;
+        @Override
+        protected String doInBackground(String... params) {
+            String  name  =params[0];
+            List<NameValuePair>  list  = new ArrayList<NameValuePair>();
+            try{
+                list.add(new BasicNameValuePair("name", name));
+                JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/image.php", list);
+                jsonArray = jsonObject.getJSONArray(tname);
+                for (int i=0;i<jsonArray.length();i++){
+                    JSONObject  j = jsonArray.getJSONObject(i);
+                    String  hs= j.getString(lh);
+                      arrayList1.add(hs);
+                }
+            }catch (Exception e){Log.e("aldaa","garsan");}
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            String path=null;
+            String  url=null;
+            for (int k=0;k<arrayList1.size();k++){
+                path =arrayList1.get(k).toString();
+                url="http://10.2.201.4/images/"+path;
+             Toast.makeText(getApplicationContext(),url,Toast.LENGTH_SHORT).show();
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                        .cacheOnDisc(true).build();
+                ImageLoaderConfiguration  config  =  new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).build();
+                ImageLoader.getInstance().init(config);
+                try{
+                    ImageLoader imageLoader=      ImageLoader.getInstance();
+                    imageLoader.displayImage(url, headerImage);
+                    ImageSize targetSize = new ImageSize(80, 50); // result Bitmap will be fit to this size
+                    imageLoader.loadImage(url, targetSize, options, new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                          headerImage.setImageBitmap(getCircleBitmap(loadedImage));
+                        }
+                    });
+                }catch (Exception e){
+                    Log.e("зураг  ","алдаа");
+                }
+            }
+        }
+    }
+    Hicheel h = new Hicheel();
+    h.execute(name);
+ }
+    private Bitmap getCircleBitmap(Bitmap bitmap) {
+        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(output);
+
+        final int color = Color.RED;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawOval(rectF, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        bitmap.recycle();
+
+        return output;
+    }
 }

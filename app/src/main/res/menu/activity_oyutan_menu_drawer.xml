@@ -4,33 +4,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camara"
-            android:icon="@android:drawable/ic_menu_camera"
-            android:title="Import" />
+            android:icon="@drawable/undsen"
+            android:title="Үндсэн дэлгэц " />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:icon="@drawable/huwaari"
+            android:title="Хичээлийн хуваарь " />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:icon="@drawable/dun"
+            android:title="Дүн харах" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
+            android:icon="@drawable/awlaga"
+            android:title="Гарын авлага" />
+        <item android:title="Мэдээлэл">
+            <menu>
+                <item android:id="@+id/nav_share"
+                    android:title="Группын  мэдээлэл"
+                    android:icon="@drawable/group"/>
+                <item android:id="@+id/nav_send"
+                    android:icon="@android:drawable/ic_menu_send"
+                    android:title="Ангийн мэдээлэл" />
+            </menu>
+        </item>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_view"
+            android:icon="@drawable/setting"
+            android:title="Тохиргоо" />
+    </group>
 
 </menu>

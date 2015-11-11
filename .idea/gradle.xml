@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/httpclient-4.5" />
             <option value="$PROJECT_DIR$/httpcore-4.4-alpha1" />
             <option value="$PROJECT_DIR$/materialdrawer-2.9.8-javadoc" />
+            <option value="$PROJECT_DIR$/universal-image-loader-1.9.4" />
           </set>
         </option>
       </GradleProjectSettings>
