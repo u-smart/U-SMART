@@ -47,10 +47,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_height="wrap_content"
@@ -60,12 +57,7 @@
                 android:layout_marginRight="43dp"
                 android:hint="Нэвтрэх нэрээ оруулна уу"
                 android:textSize="14dp"/>
-</android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_pass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
@@ -75,8 +67,9 @@
                 android:selectAllOnFocus="true"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="43dp"
-                android:hint="нууц үг"/>
-</android.support.design.widget.TextInputLayout>
+                android:hint="нууц үг"
+                android:textSize="14dp"/>
+
             <Button
                 android:id="@+id/bLogin"
                 android:text="Login"
@@ -95,6 +88,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.9">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvForgiet"
+            android:text="Нууц үгээ мартсан"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.example.tesla.u_smart.Entity;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.example.tesla.u_smart.R;
 
@@ -65,7 +63,7 @@ lv= (ListView) findViewById(R.id.lessonlistView);
 
         @Override
         protected String doInBackground(String... params) {
-            JSONObject object = make("http://10.11.9.184/config/huvaari.php");
+            JSONObject object = make("http://192.168.0.105/config/huvaari.php");
             try {
                 JSONArray j = object.getJSONArray(tname);
                 for (int i = 0; i < j.length(); i++) {

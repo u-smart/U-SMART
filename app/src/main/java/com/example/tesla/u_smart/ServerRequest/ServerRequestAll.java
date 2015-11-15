@@ -16,9 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-/**
- * Created by Sk_m4_gg on 15.11.11.
- */
 public class ServerRequestAll {
     public JSONObject getmake( String url,List<NameValuePair> lnames){
 

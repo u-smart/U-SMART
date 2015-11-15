@@ -12,16 +12,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.tesla.u_smart.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,10 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.example.tesla.u_smart.ServerRequest.ServerRequestAll;
-/**
- * Created by Sk_m4_gg on 15.11.11.
- */
+
 public class RequestServerImage extends AppCompatActivity {
     ImageView imageview;
     String url=null;
@@ -63,7 +54,7 @@ public class RequestServerImage extends AppCompatActivity {
                 List<NameValuePair> list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject jsonObject = all.getmake("http://10.2.201.4/config/image.php", list);
+                    JSONObject jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
@@ -79,7 +70,7 @@ public class RequestServerImage extends AppCompatActivity {
 
                 for (int k=0;k<arrayList1.size();k++){
                     path =arrayList1.get(k).toString();
-                    url="http://10.2.201.4/images/"+path;
+                    url="http://192.168.0.105/images/"+path;
                     Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                 }
             }

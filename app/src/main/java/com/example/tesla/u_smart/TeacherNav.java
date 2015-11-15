@@ -1,10 +1,8 @@
 package com.example.tesla.u_smart;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,22 +13,17 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -39,33 +32,17 @@ import android.widget.Toast;
 
 import com.example.tesla.u_smart.ImformationEntity.ImformationClass;
 import com.example.tesla.u_smart.ServerRequest.ServerRequestAll;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +51,7 @@ public class TeacherNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     String names;
     ListView lv,lv1;
-ImageView headerImage;
+    ImageView headerImage;
     ServerRequestAll  all;
     String name=null;
 
@@ -191,7 +168,7 @@ Intent intent =getIntent();
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/hicheel.php",list);
+                    JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/hicheel.php",list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
@@ -233,7 +210,7 @@ Intent intent =getIntent();
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
              try{
                  list.add(new BasicNameValuePair("name", name));
-                 JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/huvaari.php", list);
+                 JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/huvaari.php", list);
                  jsonArray = jsonObject.getJSONArray(tname);
                  for (int i=0;i<jsonArray.length();i++){
                      JSONObject  j = jsonArray.getJSONObject(i);
@@ -281,7 +258,7 @@ public  void  ImageViewShow(String name){
             List<NameValuePair>  list  = new ArrayList<NameValuePair>();
             try{
                 list.add(new BasicNameValuePair("name", name));
-                JSONObject  jsonObject = all.getmake("http://10.2.201.4/config/image.php", list);
+                JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
                 jsonArray = jsonObject.getJSONArray(tname);
                 for (int i=0;i<jsonArray.length();i++){
                     JSONObject  j = jsonArray.getJSONObject(i);
@@ -298,7 +275,7 @@ public  void  ImageViewShow(String name){
             String  url=null;
             for (int k=0;k<arrayList1.size();k++){
                 path =arrayList1.get(k).toString();
-                url="http://10.2.201.4/images/"+path;
+                url="http://192.168.0.105/images/"+path;
              Toast.makeText(getApplicationContext(),url,Toast.LENGTH_SHORT).show();
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                         .cacheOnDisc(true).build();
