@@ -3,35 +3,36 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camara"
+            android:id="@+id/nav_undsen"
             android:icon="@drawable/undsen1"
             android:title="Үндсэн дэлгэц " />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_huwaari"
             android:icon="@drawable/huwaari"
             android:title="Хичээлийн хуваарь " />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_dun"
             android:icon="@drawable/dun"
             android:title="Дүн харах" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_awlaga"
             android:icon="@drawable/awlaga"
             android:title="Гарын авлага" />
 
         <item android:title="Мэдээлэл">
             <menu>
-                <item android:id="@+id/nav_share"
+                <item android:id="@+id/nav_g_news"
                     android:title="Группын  мэдээлэл"
                     android:icon="@drawable/group"/>
-                <item android:id="@+id/nav_send"
+
+                <item android:id="@+id/nav_c_news"
                     android:icon="@android:drawable/ic_menu_send"
                     android:title="Ангийн мэдээлэл" />
             </menu>
         </item>
 
         <item
-            android:id="@+id/nav_view"
+            android:id="@+id/nav_setting"
             android:icon="@drawable/setting"
             android:title="Тохиргоо" />
     </group>

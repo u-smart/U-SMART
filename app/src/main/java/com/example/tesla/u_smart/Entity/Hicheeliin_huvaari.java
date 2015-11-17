@@ -63,7 +63,7 @@ lv= (ListView) findViewById(R.id.lessonlistView);
 
         @Override
         protected String doInBackground(String... params) {
-            JSONObject object = make("http://192.168.0.105/config/huvaari.php");
+            JSONObject object = make("http://192.168.43.81/config/huvaari.php");
             try {
                 JSONArray j = object.getJSONArray(tname);
                 for (int i = 0; i < j.length(); i++) {

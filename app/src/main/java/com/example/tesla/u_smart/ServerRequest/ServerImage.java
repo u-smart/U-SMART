@@ -50,7 +50,7 @@ public class ServerImage extends AppCompatActivity{
                 List<NameValuePair> list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
+                    JSONObject jsonObject = all.getmake("http://192.168.43.81/config/image.php", list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
@@ -66,7 +66,7 @@ public class ServerImage extends AppCompatActivity{
 
                 for (int k=0;k<arrayList1.size();k++){
                     path =arrayList1.get(k).toString();
-                    url="http://192.168.0.105/images/"+path;
+                    url="http://192.168.43.81/images/"+path;
                     Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
                 }
             }

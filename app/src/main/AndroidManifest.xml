@@ -6,11 +6,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/noun_194411_cc"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -45,6 +44,14 @@
             android:name=".ImformationEntity.ImformationClass"
             android:label="@string/title_activity_imformation_class"
             android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".Hicheeliin_huwaari"
+            android:label="@string/title_activity_hicheeliin_huwaari"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tesla.u_smart.Entity.Hicheeliin_huvaari" />
         </activity>
     </application>
 

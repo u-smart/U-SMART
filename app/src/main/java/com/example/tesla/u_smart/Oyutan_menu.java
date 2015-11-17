@@ -1,6 +1,8 @@
 package com.example.tesla.u_smart;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Oyutan_menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,14 +45,27 @@ public class Oyutan_menu extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private boolean pressTwice = false;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if(pressTwice == true){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            System.exit(0);
         }
+
+        pressTwice = true;
+        Toast.makeText(this, "Гархыг хүсвэл дахин дарна уу", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pressTwice = false;
+            }
+        }, 500);
     }
 
     @Override
@@ -80,17 +96,20 @@ public class Oyutan_menu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_undsen) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_huwaari) {
+            Intent n  = new Intent(Oyutan_menu.this, Hicheeliin_huwaari.class);
+            startActivity(n);
+        } else if (id == R.id.nav_dun) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_awlaga) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_g_news) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_c_news) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_setting){
 
         }
 

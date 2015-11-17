@@ -12,4 +12,6 @@
     <string name="password">Хоосон  байна</string>
     <string name="name">Бөглөөгүй байна</string>
     <string name="title_activity_imformation_class">ImformationClass</string>
+    <string name="title_activity_hicheeliin_huwaari">Hicheeliin_huwaari</string>
+    <string name="title_activity_ganas">ganas</string>
 </resources>

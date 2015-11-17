@@ -9,7 +9,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,16 +51,12 @@ public class Login extends AppCompatActivity  {
 
         etUsername = (EditText)findViewById(R.id.etUsername);
         etPassword = (EditText)findViewById(R.id.etPassword);
-        namelayout = (TextInputLayout)findViewById(R.id.name_layout);
-        passlayout = (TextInputLayout)findViewById(R.id.input_pass);
         loginb =(Button)findViewById(R.id.bLogin);
-        headerimage=  (ImageView)findViewById(R.id.headerImageView);
+       // headerimage=  (ImageView)findViewById(R.id.headerImageView);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etUsername.getText().toString().trim().isEmpty() || etPassword.getText().toString().trim().isEmpty()) {
-                    EmptyName();
-                } else
+
                     login();
             }
 
@@ -108,6 +103,7 @@ public class Login extends AppCompatActivity  {
                                   Intent n = new Intent(Login.this, TeacherNav.class);
                                    n.putExtra(USERNAME,getName());
                                   startActivity(n);
+                                 
                               }
                               else
                               if (isStudent(getName()) ||  list.get(k).toString().equalsIgnoreCase(getPass())){
@@ -162,7 +158,9 @@ public class Login extends AppCompatActivity  {
                             list.add(spass);
                         }
                     }
-                }catch (Exception r){}
+                }catch (Exception r){
+                    Log.e("Login not  connect",r.getMessage());
+                }
 
                 return  null;
 
@@ -183,26 +181,9 @@ public class Login extends AppCompatActivity  {
         Pattern  pl  =  Pattern.compile("[A-Za-z]{1}.[A-Za-z]{2}[0-9]{2}[A-Za-z]{1}[0-9]{3}");
         return   pl.matcher(studentname).matches();
     }
-public  boolean EmptyName(){
-    if (getName().trim().isEmpty() || getPass().trim().isEmpty()){
-        namelayout.setError(getString(R.string.name));
-        passlayout.setError(getString(R.string.password));
-        requestFocus(etUsername);
-        requestFocus(etPassword);
-        return  false;
-    }
-    else {
-        namelayout.setErrorEnabled(false);
-       passlayout.setErrorEnabled(false);
-    }
-    return true;
-}
 
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
+
+
     public JSONObject getmake(List<NameValuePair>  lnames){
 
       String str="";
@@ -210,14 +191,14 @@ public  boolean EmptyName(){
         InputStream st=null;
         try{
             HttpClient client = new DefaultHttpClient();
-            HttpPost post  =  new HttpPost("http://192.168.0.105/config/login.php");
+            HttpPost post  =  new HttpPost("http://192.168.43.81/config/login.php");
             post.setEntity(new UrlEncodedFormEntity(lnames));
             HttpResponse response = client.execute(post);
             HttpEntity entity = response.getEntity();
             st   =  entity.getContent();
         }catch (Exception e){
 
-            Log.e(" not Connect", "not  connect");
+            Log.e(" Login not Connect", "not  connect");
         }
         try{
             BufferedReader reader   =  new BufferedReader(new InputStreamReader(st,"UTF-8"),8);
@@ -230,7 +211,7 @@ public  boolean EmptyName(){
             str= sb.toString();
 
         }catch (Exception e1) {
-            Log.e("Exception","Exception");
+            Log.e("Login Exception","Exception");
         }
         try{
             jsonObject = new JSONObject(str);

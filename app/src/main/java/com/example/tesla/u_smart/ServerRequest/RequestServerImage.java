@@ -1,5 +1,6 @@
 package com.example.tesla.u_smart.ServerRequest;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,7 +16,12 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.tesla.u_smart.Login;
 import com.example.tesla.u_smart.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,10 +41,11 @@ public class RequestServerImage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_header_teacher_nav);
-        imageview  =(ImageView)findViewById(R.id.headerImageView);
+        imageview  =(ImageView)findViewById(R.id.imageView2);
         all = new ServerRequestAll();
-
-
+        Intent intent =getIntent();
+       String  name =intent.getStringExtra(Login.USERNAME);
+ //      ImageViewShow(name);
     }
     public  void  ImageViewShow(String name){
         class Hicheel extends AsyncTask<String, Void, String> {
@@ -54,7 +61,7 @@ public class RequestServerImage extends AppCompatActivity {
                 List<NameValuePair> list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
+                    JSONObject jsonObject = all.getmake("http://192.168.43.81/config/image.php", list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
@@ -70,8 +77,21 @@ public class RequestServerImage extends AppCompatActivity {
 
                 for (int k=0;k<arrayList1.size();k++){
                     path =arrayList1.get(k).toString();
-                    url="http://192.168.0.105/images/"+path;
-                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
+                    url="http://192.168.43.81/images/"+path;
+                   // Toast.makeText(getApplicationContext(), url, Toast.LENGTH_SHORT).show();
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                            .cacheOnDisc(true).build();
+                    ImageLoaderConfiguration config  =  new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).build();
+                    ImageLoader.getInstance().init(config);
+                    try{
+
+                        ImageLoader imageLoader = ImageLoader.getInstance();
+                        imageLoader.displayImage(url, imageview);
+                        ImageSize targetSize = new ImageSize(80, 50); // result Bitmap will be fit to this size
+                        Toast.makeText(getApplicationContext(),"image",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Log.e("зураг  ","алдаа");
+                    }
                 }
             }
         }

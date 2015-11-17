@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.tesla.u_smart.ForgetActivity"
-    android:background="#ffffff"
-    android:nestedScrollingEnabled="false"
-    android:onClick="setContentView">
+    android:background="#ffffff">
 
 
     <RelativeLayout
@@ -17,22 +15,25 @@
         android:layout_height="match_parent"
         android:background="#3b8ca2">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:src="@android:drawable/ic_dialog_email"
-            android:layout_marginBottom="33dp"
+            android:text="илгээх"
+            android:textColor="#000000"
+            android:id="@+id/button"
+            android:layout_marginBottom="238dp"
+            android:background="#ffffff"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/textView3"
-            android:layout_alignEnd="@+id/textView3" />
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_marginRight="64dp"
+            android:layout_marginEnd="64dp" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:ems="13"
+            android:ems="24"
             android:id="@+id/tvForgietEmail"
             android:background="#ffffff"
             android:layout_centerVertical="true"
@@ -44,11 +45,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Та өөрийн бүртгэлтэй и-мейл хаяг аа оруулна уу"
             android:id="@+id/textView3"
-            android:textSize="20dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:textSize="50dp"
+            android:layout_marginTop="179dp"
+            android:layout_marginLeft="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </LinearLayout>

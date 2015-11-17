@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -24,13 +25,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tesla.u_smart.ImformationEntity.ImformationClass;
 import com.example.tesla.u_smart.ServerRequest.ServerRequestAll;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,12 +51,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TeacherNav extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemClickListener{
     String names;
     ListView lv,lv1;
     ImageView headerImage;
     ServerRequestAll  all;
     String name=null;
+    TextView text1;
 
     Bitmap bitmap;
     ArrayList<HashMap<String, String>> productsList=new ArrayList<HashMap<String, String>>();
@@ -85,26 +89,46 @@ public class TeacherNav extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
       lv  =  (ListView)findViewById(R.id.lessonlistView);
         lv1  =  (ListView)findViewById(R.id.lessonlistView);
+       //// headerImage  =(ImageView)findViewById(R.id.imageVieView inf  =  navigationView.inflateHeaderView(R.layout.nav_header_teacher_nav);
+       View   inf  =  navigationView.inflateHeaderView(R.layout.nav_header_teacher_nav);
+        headerImage  =(ImageView)inf.findViewById(R.id.imageView2);
+        text1  =(TextView)inf.findViewById(R.id.email);
+      text1.setText("email");
+        lv.setOnItemClickListener(this);
 
-        headerImage = (ImageView)findViewById(R.id.headerImageView);
+      //  new Drawer().withHeader(R.drawable.dun).build();
+       // headerImage = (ImageView)findViewById(R.id.headerImageView);
+ //        navigationView.inflateHeaderView(getResources().getDrawable(R.drawable.dun),null);
 
-Intent intent =getIntent();
+        Intent intent =getIntent();
         name =intent.getStringExtra(Login.USERNAME);
         Toast.makeText(getApplicationContext(),name,Toast.LENGTH_SHORT).show();
 
         all =  new ServerRequestAll();
         ImageViewShow(name);
 
-
      }
+    private boolean pressTwice = false;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if(pressTwice == true){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            System.exit(0);
         }
+
+        pressTwice = true;
+        Toast.makeText(this, "Гархыг хүсвэл дахин дарна уу", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pressTwice = false;
+            }
+        }, 500);
     }
 
     @Override
@@ -146,10 +170,6 @@ Intent intent =getIntent();
 
         } else if (id == R.id.home) {
 
-        } else if (id == R.id.cl_info) {
-               new ImformationClass();
-        } else if (id == R.id.g_info) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -161,6 +181,7 @@ Intent intent =getIntent();
             public static final String tname = "hicheel";
             public static final String lnames = "hicheeliin_ner";
             public static final String lcode= "hicheeliin_code";
+            public static final String lcount= "n";
             JSONArray jsonArray=null;
             @Override
             protected String doInBackground(String... params) {
@@ -168,15 +189,17 @@ Intent intent =getIntent();
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/hicheel.php",list);
+                    JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/hicheel.php",list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
                         names= j.getString(lnames);
                         String h  = j.getString(lcode);
+                        String  count  =j.getString(lcount);
                         HashMap<String,String>  map  = new  HashMap<String,String>();
                         map.put(lnames, names);
                         map.put(lcode, h);
+                        map.put(lcount,count);
                         productsList.add(map);
                     }
                 }catch (Exception e){Log.e("aldaa","garsan");}
@@ -185,7 +208,7 @@ Intent intent =getIntent();
 
             @Override
             protected void onPostExecute(String s) {
-                ListAdapter listAdapter = new SimpleAdapter(TeacherNav.this,productsList,R.layout.list_item,new String[]{lcode,lnames},new int[]{R.id.lcode,R.id.lname});
+                ListAdapter listAdapter = new SimpleAdapter(TeacherNav.this,productsList,R.layout.list_item,new String[]{lcode,lnames,lcount},new int[]{R.id.lcode,R.id.lname,R.id.lcount});
               lv.setAdapter(listAdapter);
             }
         }
@@ -210,7 +233,7 @@ Intent intent =getIntent();
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
              try{
                  list.add(new BasicNameValuePair("name", name));
-                 JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/huvaari.php", list);
+                 JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/huvaari.php", list);
                  jsonArray = jsonObject.getJSONArray(tname);
                  for (int i=0;i<jsonArray.length();i++){
                      JSONObject  j = jsonArray.getJSONObject(i);
@@ -258,7 +281,7 @@ public  void  ImageViewShow(String name){
             List<NameValuePair>  list  = new ArrayList<NameValuePair>();
             try{
                 list.add(new BasicNameValuePair("name", name));
-                JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
+                JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/image.php", list);
                 jsonArray = jsonObject.getJSONArray(tname);
                 for (int i=0;i<jsonArray.length();i++){
                     JSONObject  j = jsonArray.getJSONObject(i);
@@ -275,26 +298,28 @@ public  void  ImageViewShow(String name){
             String  url=null;
             for (int k=0;k<arrayList1.size();k++){
                 path =arrayList1.get(k).toString();
-                url="http://192.168.0.105/images/"+path;
-             Toast.makeText(getApplicationContext(),url,Toast.LENGTH_SHORT).show();
+                url="http://192.168.43.81/images/"+path;
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                         .cacheOnDisc(true).build();
-                ImageLoaderConfiguration  config  =  new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).build();
+                ImageLoaderConfiguration config  =  new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).build();
                 ImageLoader.getInstance().init(config);
                 try{
-                    ImageLoader imageLoader=      ImageLoader.getInstance();
+
+                    ImageLoader imageLoader = ImageLoader.getInstance();
                     imageLoader.displayImage(url, headerImage);
-                    ImageSize targetSize = new ImageSize(80, 50); // result Bitmap will be fit to this size
-                    imageLoader.loadImage(url, targetSize, options, new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                          headerImage.setImageBitmap(getCircleBitmap(loadedImage));
-                        }
-                    });
+                    ImageSize targetSize = new ImageSize(100, 50); // result Bitmap will be fit to this size
+                   // Toast.makeText(getApplicationContext(),"image",Toast.LENGTH_SHORT).show();
+    imageLoader.loadImage(url,targetSize,options,new SimpleImageLoadingListener(){
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                 headerImage.setImageBitmap(getCircleBitmap(loadedImage));
+        }
+    });
                 }catch (Exception e){
-                    Log.e("зураг  ","алдаа");
+                    Log.e("зураг  ",e.getMessage());
                 }
             }
+
         }
     }
     Hicheel h = new Hicheel();
@@ -321,5 +346,67 @@ public  void  ImageViewShow(String name){
         bitmap.recycle();
 
         return output;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//          int  k  =  view.getId();
+        LinearLayout lp = (LinearLayout)view;
+        LinearLayout  lchild   =(LinearLayout)lp.getChildAt(1);
+        TextView  t  =  (TextView) lchild.getChildAt(0);
+        Toast.makeText(getApplicationContext(),t.getText().toString(),Toast.LENGTH_SHORT).show();
+    }
+    private void getGroup(String  username ){
+        class Hicheel extends AsyncTask<String, Void, String> {
+          //  ArrayList<String>  arrayList1=  new ArrayList<String>();
+            ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String, String>>();
+            public static final String tname = "hicheeliin_huwaari";
+            public static final String lh = "hicheeliin_oroh_helber";
+            public static final String group = "hicheeliin_huwaariin_code";
+
+            JSONArray jsonArray=null;
+            @Override
+            protected String doInBackground(String... params) {
+                String  name  =params[0];
+                List<NameValuePair>  list  = new ArrayList<NameValuePair>();
+                try{
+                    list.add(new BasicNameValuePair("name", name));
+                    JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/group.php", list);
+                    jsonArray = jsonObject.getJSONArray(tname);
+                    for (int i=0;i<jsonArray.length();i++){
+                        JSONObject  j = jsonArray.getJSONObject(i);
+                        String gr  = j.getString(group);
+                        String h  = j.getString(lh);
+
+
+                        HashMap<String,String>  map  = new  HashMap<String,String>();
+                        map.put(group, gr);
+                        map.put(lh, h);
+
+
+                        arrayList.add(map);
+                    }
+                }catch (Exception e)
+                {Log.e("group json aldaa",e.getMessage());}
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                //   ArrayAdapter adapter =  new ArrayAdapter(TeacherNav.this,android.R.layout.simple_list_item_1,android.R.id.text1,arrayList1);
+                //   lv.setAdapter(adapter);
+                ListAdapter listAdapter =  new SimpleAdapter(TeacherNav.this,arrayList,R.layout.group_list,new String[]{lh,group}, new int[]{R.id.groupname,R.id.group_helber});
+                lv1.setAdapter(listAdapter);
+
+            }
+            //       Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+
+        }
+
+        Hicheel h = new Hicheel();
+        h.execute(username);
+    }
+    public void  getDate(){
+
     }
 }
