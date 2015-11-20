@@ -16,6 +16,4 @@ public class Hicheeliin_huwaari extends Fragment {
          inflateV =  inflater.inflate(R.layout.activity_hicheeliin_huwaari,null);
         return inflateV;
     }
-   
-
 }

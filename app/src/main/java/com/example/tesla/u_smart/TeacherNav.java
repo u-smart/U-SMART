@@ -189,7 +189,7 @@ public class TeacherNav extends AppCompatActivity
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/hicheel.php",list);
+                    JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/hicheel.php",list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
@@ -233,7 +233,7 @@ public class TeacherNav extends AppCompatActivity
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
              try{
                  list.add(new BasicNameValuePair("name", name));
-                 JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/huvaari.php", list);
+                 JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/huvaari.php", list);
                  jsonArray = jsonObject.getJSONArray(tname);
                  for (int i=0;i<jsonArray.length();i++){
                      JSONObject  j = jsonArray.getJSONObject(i);
@@ -281,7 +281,7 @@ public  void  ImageViewShow(String name){
             List<NameValuePair>  list  = new ArrayList<NameValuePair>();
             try{
                 list.add(new BasicNameValuePair("name", name));
-                JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/image.php", list);
+                JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/image.php", list);
                 jsonArray = jsonObject.getJSONArray(tname);
                 for (int i=0;i<jsonArray.length();i++){
                     JSONObject  j = jsonArray.getJSONObject(i);
@@ -298,7 +298,7 @@ public  void  ImageViewShow(String name){
             String  url=null;
             for (int k=0;k<arrayList1.size();k++){
                 path =arrayList1.get(k).toString();
-                url="http://192.168.43.81/images/"+path;
+                url="http://192.168.0.105/images/"+path;
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                         .cacheOnDisc(true).build();
                 ImageLoaderConfiguration config  =  new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).build();
@@ -371,7 +371,7 @@ public  void  ImageViewShow(String name){
                 List<NameValuePair>  list  = new ArrayList<NameValuePair>();
                 try{
                     list.add(new BasicNameValuePair("name", name));
-                    JSONObject  jsonObject = all.getmake("http://192.168.43.81/config/group.php", list);
+                    JSONObject  jsonObject = all.getmake("http://192.168.0.105/config/group.php", list);
                     jsonArray = jsonObject.getJSONArray(tname);
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject  j = jsonArray.getJSONObject(i);
